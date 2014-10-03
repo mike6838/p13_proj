@@ -1,6 +1,8 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require_relative 'db/config'
+require_relative 'app.rb'
+require_relative 'lib/ascii_importer'
 
 desc "launch console"
 task :console do
@@ -28,7 +30,7 @@ end
 
 desc "populate the test database with sample data"
 task "db:populate" do
-
+  AsciiImporter.run
 end
 
 desc "rollback your migration--use STEPS=number to step back multiple times"
