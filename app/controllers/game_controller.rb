@@ -1,3 +1,4 @@
+require_relative '../views/view.rb'
 
 class GameController
   def initialize(username)
@@ -29,15 +30,18 @@ class GameController
   def check_input(string)
     if string.downcase == @picture.name
       true
+      View.correct
     elsif @picture_index = 5
       nil
+      View.game_over
     else
       false
     end
   end
 
   def get_high_scores
-    User.all.sort_by { |u| u.score }.reverse.shift(5)
+    users = User.all.sort_by { |u| u.score }.reverse.shift(5)
+    View.high_scores(users)
   end
 
   def create_users(string)
@@ -50,3 +54,4 @@ class GameController
   end
 
 end
+
