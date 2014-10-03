@@ -62,7 +62,7 @@ class View
     if result == true
       correct
     else
-      wrong
+      game_over
     end
     @game.get_random_pic
     loop
@@ -81,6 +81,7 @@ class View
   def game_over
     clear_screen!
     puts "sorry, nice try"
+    puts "Your score was #{@game.get_score}"
   end
 
   def high_scores
