@@ -1,7 +1,6 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require_relative 'db/config'
-require_relative 'lib/students_importer'
 
 desc "launch console"
 task :console do
@@ -10,12 +9,12 @@ end
 
 desc "create the database"
 task "db:create" do
-  touch 'db/ar-students.sqlite3'
+  touch 'db/asciibats.sqlite3'
 end
 
 desc "drop the database"
 task "db:drop" do
-  rm_f 'db/ar-students.sqlite3'
+  rm_f 'db/asciibats.sqlite3'
 end
 
 desc "migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
@@ -29,7 +28,7 @@ end
 
 desc "populate the test database with sample data"
 task "db:populate" do
-  StudentsImporter.import
+
 end
 
 desc "rollback your migration--use STEPS=number to step back multiple times"
