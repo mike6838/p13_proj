@@ -1,8 +1,12 @@
 require_relative '../controllers/game_controller.rb'
 
-module View
+class View
+  def initialize
+    @game = GameController.new
+  end
 
-  def self.start
+  def start
+    clear_screen!
     puts <<-STARTSCREEN
        .__   __.      ___      .___  ___.  _______
        |  \\ |  |     /   \\     |   \\/   | |   ____|
@@ -42,25 +46,45 @@ module View
     puts "play!"
     high_scores
     puts ""
+    puts "Enter username:"
+    @game.create_users(gets.chomp)
+    loop
   end
 
-  def self.wrong
+  def loop
+    begin
+    clear_screen!
+    puts @game.get_partial_pic
+    puts "Guess the ASCII Bat:"
+    input = gets.chomp
+    result = @game.check_input(input)
+    end until result == true || result == nil
+    if result == true
+      correct
+    else
+      wrong
+    end
+    @game.get_random_pic
+    loop
+  end
+
+  def wrong
     clear_screen!
     puts "aww too bad!"
   end
 
-  def self.correct
+  def correct
     clear_screen!
     puts "good job!"
   end
 
-  def self.game_over
+  def game_over
     clear_screen!
     puts "sorry, nice try"
   end
 
-  def self.high_scores(users)
-    users.each do |user|
+  def high_scores
+    @game.get_high_scores.each do |user|
       puts ""
       puts "Name | High Score"
       puts "----------------------------------"
@@ -70,7 +94,7 @@ module View
   end
 
   def clear_screen!
-    print "\e[2]"
+    print "\e[H\e[2J"
   end
 end
 
@@ -83,36 +107,6 @@ end
 
 
 
-#   def self.welcome_message
-#     puts "Welcome to Flash Cards with your Superego!"
-#     puts "__________________________________"
-#     puts <<-STARTSCREEN
-#    .__   __.      ___      .___  ___.  _______
-#    |  \\ |  |     /   \\     |   \\/   | |   ____|
-#    |   \\|  |    /  ^  \\    |  \\  /  | |  |__
-#    |  . `  |   /  /_\\  \\   |  |\\/|  | |   __|
-#    |  |\\   |  /  _____  \\  |  |  |  | |  |____
-#    |__| \\__| /__/     \\__\\ |__|  |__| |_______|
-# .___________. __    __       ___   .___________.
-# |           ||  |  |  |     /   \\  |           |
-# `---|  |----`|  |__|  |    /  ^  \\ `---|  |----`
-#     |  |     |   __   |   /  /_\\  \\    |  |
-#     |  |     |  |  |  |  /  _____  \\   |  |
-#     |__|     |__|  |__| /__/     \\__\\  |__|
-#      ___           _______.  ______  __   __
-#     /   \\         /       | /      ||  | |  |
-#    /  ^  \\       |   (----`|  ,----'|  | |  |
-#   /  /_\\  \\       \\   \\    |  |     |  | |  |
-#  /  _____  \\  .----)   |   |  `----.|  | |  |
-# /__/     \\__\\ |_______/     \\______||__| |__|
-#       .______        ___   .___________.
-#       |   _  \\      /   \\  |           |
-#       |  |_)  |    /  ^  \\ `---|  |----`
-#       |   _  <    /  /_\\  \\    |  |
-#       |  |_)  |  /  _____  \\   |  |
-#       |______/  /__/     \\__\\  |__|
-
-# STARTSCREEN
 #     puts ""
 #     puts "play!"
 #     puts "high_scores"

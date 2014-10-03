@@ -1,11 +1,10 @@
 require_relative '../views/view.rb'
 
 class GameController
-  def initialize(username)
-    @user = create_users(username)
-    @picture = get_random_pic
+  def initialize()
     @picture_string = ''
     @picture_index = 0
+    get_random_pic
   end
 
   def get_score
@@ -18,11 +17,11 @@ class GameController
   def get_random_pic
     @picture_string = ""
     @picture_index = 0
-    Picture.sample
+    @picture = Picture.all.sample
   end
 
   def get_partial_pic
-    @picture_string << @picture.parts[index]
+    @picture_string << @picture.parts[@picture_index].ascii
     @picture_index += 1
     @picture_string
   end
@@ -30,10 +29,8 @@ class GameController
   def check_input(string)
     if string.downcase == @picture.name
       true
-      View.correct
-    elsif @picture_index = 5
+    elsif @picture_index == 7
       nil
-      View.game_over
     else
       false
     end
@@ -41,7 +38,6 @@ class GameController
 
   def get_high_scores
     users = User.all.sort_by { |u| u.score }.reverse.shift(5)
-    View.high_scores(users)
   end
 
   def create_users(string)

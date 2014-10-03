@@ -11,9 +11,10 @@ class AsciiImporter
       string = ""
       File.open("ascii/" + file_name).each do |line|
         string << line
-        if index == 5
+        if index == 20
           pic.parts.create(ascii: string)
           index = 0
+          string = ""
         end
         index += 1
       end

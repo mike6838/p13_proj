@@ -11,6 +11,9 @@ require APP_ROOT.join('db', 'config')
 require APP_ROOT.join('app', 'models', 'user')
 require APP_ROOT.join('app', 'models', 'picture')
 require APP_ROOT.join('app', 'models', 'part')
+require APP_ROOT.join('app', 'controllers', 'game_controller')
+require APP_ROOT.join('app', 'views', 'view')
 
 # are other require statements needed to include all your models?
 
+View.new.start
